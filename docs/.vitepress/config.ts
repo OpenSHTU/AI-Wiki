@@ -2,7 +2,8 @@ import { defineConfig } from 'vitepress'
 
 const zhNav = [
   { text: '首页', link: '/' },
-  { text: '数学基础', link: '/math' }
+  { text: '数学基础', link: '/math' },
+  { text: '人工智能', link: '/ai/' }
 
 ]
 
@@ -11,6 +12,14 @@ const enNav = [
 ]
 
 const zhSidebar = {
+  '/ai/': [
+    {
+      text: '人工智能',
+      items: [
+        { text: '总览', link: '/ai/' }
+      ]
+    }
+  ],
   '/math/': [
     {
       text: '数学基础',
@@ -77,7 +86,23 @@ export default defineConfig({
   cleanUrls: true,
   lastUpdated: true,
   markdown: {
-    math: true
+    math: true,
+    config(md) {
+      const defaultFence = md.renderer.rules.fence
+
+      md.renderer.rules.fence = (tokens, idx, options, env, self) => {
+        const token = tokens[idx]
+        const language = token.info.trim().split(/\s+/)[0]
+
+        if (language === 'mermaid') {
+          return `<MermaidDiagram graph="${encodeURIComponent(token.content)}" />`
+        }
+
+        return defaultFence
+          ? defaultFence(tokens, idx, options, env, self)
+          : self.renderToken(tokens, idx, options)
+      }
+    }
   },
   themeConfig: {
     search: {
