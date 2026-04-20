@@ -87,6 +87,18 @@ body {
   background-color: var(--vp-c-bg); /* Dark mode base */
 }
 
+.VPDoc,
+.VPDoc .container,
+.VPDoc .content {
+  background: #ffffff;
+}
+
+.dark .VPDoc,
+.dark .VPDoc .container,
+.dark .VPDoc .content {
+  background: var(--vp-c-bg);
+}
+
 .VPNav {
   border-bottom: 1px solid var(--vp-c-divider);
   background: var(--akg-panel-strong);
@@ -258,6 +270,27 @@ body {
   border-radius: 12px;
   border: 1px solid var(--vp-c-border);
   box-shadow: 0 12px 24px var(--akg-shadow);
+}
+
+.vp-doc [class*='language-'] > button.copy {
+  top: 8px;
+  right: 8px;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background-size: 15px;
+  background-position: center;
+}
+
+.vp-doc [class*='language-'] > button.copy.copied::before,
+.vp-doc [class*='language-'] > button.copy:hover.copied::before {
+  top: 1px;
+  right: 32px;
+  height: 24px;
+  padding: 0 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  line-height: 24px;
 }
 
 .repo-content-wrapper {

@@ -11,7 +11,7 @@ hero:
       link: /start-here
     - theme: alt
       text: "GitHub 源代码"
-      link: https://github.com/your-username/your-repo-name
+      link: https://github.com/OpenSHTU/AI-WIKI
 
 ---
 
