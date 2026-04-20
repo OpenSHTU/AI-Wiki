@@ -21,11 +21,13 @@
       </div>
     </template>
   </DefaultTheme.Layout>
+  <CollapsibleLists />
 </template>
 
 <script setup>
 import DefaultTheme from 'vitepress/theme'
 import HomeBackdrop from './components/HomeBackdrop.vue'
+import CollapsibleLists from './components/CollapsibleLists.vue'
 </script>
 
 <style scoped>

@@ -1,4 +1,4 @@
-:root {
+﻿:root {
   --akg-bg: #fcfcff;
   --akg-bg-soft: #f7f8ff;
   --akg-panel: rgba(255, 255, 255, 0.78);
@@ -325,6 +325,65 @@ body {
   line-height: 24px;
 }
 
+.vp-doc table {
+  font-size: 14px;
+}
+
+.vp-doc th,
+.vp-doc td {
+  vertical-align: top;
+}
+
+.vp-doc td {
+  line-height: 1.65;
+}
+
+.collapsible-lists-enabled .collapsible-list__item {
+  list-style: none;
+  margin-top: 6px;
+}
+
+.collapsible-lists-enabled .collapsible-list__toggle {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 7px;
+  max-width: 100%;
+  margin: 0;
+  padding: 2px 6px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--vp-c-text-1);
+  font: inherit;
+  line-height: 1.6;
+  text-align: left;
+  cursor: pointer;
+}
+
+.collapsible-lists-enabled .collapsible-list__toggle:hover {
+  background: var(--vp-c-brand-soft);
+}
+
+.collapsible-lists-enabled .collapsible-list__toggle::before {
+  content: "\203A";
+  display: inline-block;
+  color: var(--vp-c-brand-1);
+  font-weight: 700;
+  transform: translateY(-1px);
+  transition: transform 160ms ease;
+}
+
+.collapsible-lists-enabled .collapsible-list__item.is-open > .collapsible-list__toggle::before {
+  transform: rotate(90deg) translateX(1px);
+}
+
+.collapsible-lists-enabled .collapsible-list__content {
+  margin-top: 4px;
+  margin-left: 14px;
+  padding-left: 14px;
+  border-left: 1px solid var(--vp-c-divider);
+}
+
 .repo-content-wrapper {
   max-width: 860px;
   margin: 40px auto 100px;
@@ -361,3 +420,4 @@ body {
     width: 100%;
   }
 }
+

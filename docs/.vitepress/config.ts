@@ -1,9 +1,61 @@
 import { defineConfig } from 'vitepress'
+import fs from 'node:fs'
+import path from 'node:path'
+
+const docsRoot = __dirname ? path.resolve(__dirname, '..') : path.resolve('docs')
+
+function titleFromMarkdown(filePath: string, fallback: string) {
+  if (!fs.existsSync(filePath)) return fallback
+
+  const firstHeading = fs
+    .readFileSync(filePath, 'utf-8')
+    .split(/\r?\n/)
+    .find((line) => line.startsWith('# '))
+
+  return firstHeading ? firstHeading.replace(/^#\s+/, '').trim() : fallback
+}
+
+function titleFromSegment(segment: string) {
+  return segment
+    .split('-')
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ')
+}
+
+function buildDirectorySidebar(relativeDir: string, linkPrefix: string) {
+  const absoluteDir = path.join(docsRoot, relativeDir)
+  const items = []
+
+  if (!fs.existsSync(absoluteDir)) return items
+
+  const entries = fs.readdirSync(absoluteDir, { withFileTypes: true })
+  const directories = entries
+    .filter((entry) => entry.isDirectory())
+    .sort((a, b) => a.name.localeCompare(b.name))
+
+  for (const directory of directories) {
+    const childRelative = path.posix.join(relativeDir.replaceAll(path.sep, '/'), directory.name)
+    const childAbsolute = path.join(absoluteDir, directory.name)
+    const indexPath = path.join(childAbsolute, 'index.md')
+    const nestedItems = buildDirectorySidebar(childRelative, `${linkPrefix}${directory.name}/`)
+
+    items.push({
+      text: titleFromMarkdown(indexPath, titleFromSegment(directory.name)),
+      link: `${linkPrefix}${directory.name}/`,
+      collapsed: true,
+      ...(nestedItems.length ? { items: nestedItems } : {})
+    })
+  }
+
+  return items
+}
 
 const zhNav = [
   { text: '首页', link: '/' },
   { text: '数学基础', link: '/math' },
-  { text: '人工智能', link: '/ai/' }
+  { text: '人工智能', link: '/ai/' },
+  { text: 'ML & DL', link: '/ml-dl/' },
 
 ]
 
@@ -17,6 +69,19 @@ const zhSidebar = {
       text: '人工智能',
       items: [
         { text: '总览', link: '/ai/' }
+      ]
+    }
+  ],
+  '/ml-dl/': [
+    {
+      text: 'ML & DL',
+      items: [
+        { text: '总览', link: '/ml-dl/' },
+        {
+          text: 'ML 算法分类',
+          collapsed: false,
+          items: buildDirectorySidebar('ml-dl', '/ml-dl/')
+        }
       ]
     }
   ],
